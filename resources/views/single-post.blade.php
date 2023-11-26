@@ -18,8 +18,7 @@
       </a>
       Posted by <a href="#">{{$post->user->username}}</a> on {{$post->created_at->format('n/j/Y')}}
     </p>
-
-    <div class="body-content">{{$post->body}}</div>
+    <div class="body-content">{!! $post->body !!}</div>
   </div>
 
 </x-layout>

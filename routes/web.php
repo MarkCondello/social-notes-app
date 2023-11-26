@@ -18,12 +18,12 @@ use App\Http\Controllers\UserController;
 */
 
 // user routes
-Route::get('/', [UserController::class, 'homePage']);
-Route::post('/register', [UserController::class, 'store']);
-Route::post('/login', [UserController::class, 'login']);
-Route::post('/logout', [UserController::class, 'logout']);
+Route::get('/', [UserController::class, 'homePage'])->name('login'); // we set this route as the login for auth failure requests
+Route::post('/register', [UserController::class, 'store'])->middleware('guest');
+Route::post('/login', [UserController::class, 'login'])->middleware('guest');
+Route::post('/logout', [UserController::class, 'logout'])->middleware('mustBeLoggedIn');
 
-//blog routes
-Route::get('/create-post', [PostController::class, 'showCreateForm']);
-Route::post('/store-post', [PostController::class, 'storePost']);
+// blog routes
+Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('mustBeLoggedIn');
+Route::post('/store-post', [PostController::class, 'storePost'])->middleware('mustBeLoggedIn');
 Route::get('/posts/{post}', [PostController::class, 'viewPost']);
