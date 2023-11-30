@@ -27,3 +27,7 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('mustBeLog
 Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('mustBeLoggedIn');
 Route::post('/store-post', [PostController::class, 'storePost'])->middleware('mustBeLoggedIn');
 Route::get('/posts/{post}', [PostController::class, 'viewPost']);
+
+// profile routes
+// {user:username} tells laravel to look for a user with the username value passed in the url
+Route::get('/profile/{user:username}', [UserController::class, 'viewProfile'])->middleware('mustBeLoggedIn');
