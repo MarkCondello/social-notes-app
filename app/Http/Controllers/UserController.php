@@ -15,7 +15,7 @@ class UserController extends Controller
             return view('home-page-feed');
         } else {
             return view('home-page');
-        } 
+        }
     }
 
     function store(Request $request)
@@ -27,10 +27,8 @@ class UserController extends Controller
         ]);
 
         $fields['password'] = bcrypt($fields['password']);
-        
         $user = User::create($fields);
         auth()->login($user); // this adds the cookie for the new user sesssion.
-
         return redirect('/')->with('success', 'You registered.');
     }
 
@@ -40,7 +38,6 @@ class UserController extends Controller
             'loginusername' => ['required',],
             'loginpassword' => ['required',],
         ]);
-
         if (auth()->attempt([
             'username' => $fields['loginusername'],
             'password' => $fields['loginpassword'],

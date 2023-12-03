@@ -8,6 +8,31 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function updatePost(Post $post, Request $request)
+    {
+        $fields = $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+        $fields['title'] = strip_tags($fields['title']);
+        $fields['body'] = strip_tags($fields['body']);
+        $post->update($fields);
+        
+        return back()->with('success', 'Your post was updated.');
+    }
+    public function showEditForm(Post $post)
+    {
+        return view('edit-post', ['post' => $post]);
+    }
+    public function deletePost(Post $post)
+    {
+        // if (auth()->user()->cannot('delete', $post)) { // we use route pplicy middleware instead
+        //     return 'Ah ah, No no no.';
+        // }
+        $post->delete();
+        return redirect('/profile/' . auth()->user()->username)
+            ->with('success', 'Post was deleted...');
+    }
     public function showCreateForm()
     {
         // if (!auth()->check()) { // we use route middleware instead
@@ -25,7 +50,6 @@ class PostController extends Controller
         $fields['title'] = strip_tags($fields['title']);
         $fields['body'] = strip_tags($fields['body']);
         $fields['user_id'] = auth()->user()->id;
-        
         $post = Post::create($fields);
         
         return redirect('/posts/' . $post->id)->with('success', 'Your post was created.');
