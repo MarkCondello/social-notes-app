@@ -33,3 +33,5 @@ Our application allows users to upload Avatar images to the `/storage/app` direc
 In order to symlink the uploaded files to public, we run the following command:
 `php artisan storage:link`
 We still reference the `/storage` path to load files in the application.
+
+Resizing images is done with the `Intervention\Image` package [here](https://github.com/Intervention/image).

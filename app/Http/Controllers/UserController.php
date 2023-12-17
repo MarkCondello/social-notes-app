@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+//  use Intervention\Image\Image;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
 
 class UserController extends Controller
 {
@@ -70,9 +74,20 @@ class UserController extends Controller
     {
         return view('avatar-form');
     }
+
     public function uploadAvatar(Request $request)
     {
-        $request->file('avatar')->store('avatars'); // this stores images in /storage/app/avatars/
-        return 'HEY';
+        $request->validate([
+            'avatar' => 'required|image|max:3000',
+        ]);
+        $manager = new ImageManager(
+            new Driver()
+        );
+        $image = $manager->read($request->file('avatar'))->coverDown(120, 120)->toJpeg();
+        $filename = auth()->user()->id."-". \uniqid();
+        Storage::put("/public/avatars/". $filename .".jpg", $image);
+        // /public/avatars was used by Brad
+        return redirect('/')->with('success', 'You updated your avatar.');
+
     }
 }
