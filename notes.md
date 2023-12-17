@@ -35,3 +35,6 @@ In order to symlink the uploaded files to public, we run the following command:
 We still reference the `/storage` path to load files in the application.
 
 Resizing images is done with the `Intervention\Image` package [here](https://github.com/Intervention/image).
+
+### Avatar accessor
+In the User model, we have an accessor which changes the logic for accessing the `$user->avatar`. It checks if the image exists in the table, and if so, loads the correct path for where it is located. Otherwise a fallback image is provided.

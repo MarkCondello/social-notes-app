@@ -80,13 +80,20 @@ class UserController extends Controller
         $request->validate([
             'avatar' => 'required|image|max:3000',
         ]);
-        $manager = new ImageManager(
-            new Driver()
-        );
+        $user = auth()->user();
+        $manager = new ImageManager(new Driver());
         $image = $manager->read($request->file('avatar'))->coverDown(120, 120)->toJpeg();
-        $filename = auth()->user()->id."-". \uniqid();
-        Storage::put("/public/avatars/". $filename .".jpg", $image);
-        // /public/avatars was used by Brad
+        $filename = $user->id."-" . \uniqid() . ".jpg";
+        Storage::put("/public/avatars/". $filename, $image);
+
+        $oldAvatar = $user->avatar;
+
+        $user->avatar = $filename;
+        $user->save();
+
+        if ($oldAvatar != "/fallback-avatar.jpg") {
+            Storage::delete(str_replace('/storage', 'public/', $oldAvatar)); // need to delete the image found in public, not the storage dir
+        }
         return redirect('/')->with('success', 'You updated your avatar.');
 
     }
