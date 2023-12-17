@@ -24,5 +24,12 @@ We can also use the post *policy* as middleware in routes as well like so:
 
 Policies are tied to a model for CRUD operations for a specific resource. In this example we are tying the Post model to the policy.
 
+## Gates
 We use a *gate* to allow access to private areas. In this project we set up the `accessAdminPages` in the boot method of AuthServiceProvider.php file and spell out which type of user gets past the *gate*.
 Then in the routes file, we use the `->middleware(can:accessAdminPages)` to allow access to sepcific routes.
+
+## Laravel file handling
+Our application allows users to upload Avatar images to the `/storage/app` directory. This is the best practice rather than allowing users to upload files to the `/public` directory.
+In order to symlink the uploaded files to public, we run the following command:
+`php artisan storage:link`
+We still reference the `/storage` path to load files in the application.

@@ -3,9 +3,16 @@
     <h2>
       {{-- {{ $user->isAdmin ? "ROOT ADMIN" : 'AVG USER'}} --}}
       <img class="avatar-small" src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128" /> {{$user->username}}
-      <form class="ml-2 d-inline" action="#" method="POST">
+      <form
+        class="ml-2 d-inline"
+        action="/edit-avatar"
+        method="POST"
+      >
         <button class="btn btn-primary btn-sm">Follow <i class="fas fa-user-plus"></i></button>
         <!-- <button class="btn btn-danger btn-sm">Stop Following <i class="fas fa-user-times"></i></button> -->
+        @if(auth()->user()->username === $user->username)
+        <a href="/edit-avatar" class="btn btn-secondary btn-sm">Edit Avatar</a>
+        @endif
       </form>
     </h2>
     <div class="profile-nav nav nav-tabs pt-2 mb-4">

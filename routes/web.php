@@ -22,6 +22,8 @@ Route::get('/', [UserController::class, 'homePage'])->name('login'); // we set t
 Route::post('/register', [UserController::class, 'store'])->middleware('guest');
 Route::post('/login', [UserController::class, 'login'])->middleware('guest');
 Route::post('/logout', [UserController::class, 'logout'])->middleware('mustBeLoggedIn');
+Route::get('/edit-avatar', [UserController::class, 'showAvatarForm'])->middleware('mustBeLoggedIn');
+Route::post('/upload-avatar', [UserController::class, 'uploadAvatar'])->middleware('mustBeLoggedIn');
 
 // blog routes
 Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('mustBeLoggedIn');
