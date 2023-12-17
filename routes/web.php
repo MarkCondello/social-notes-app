@@ -34,3 +34,8 @@ Route::put('/posts/{post}/update', [PostController::class, 'updatePost'])->middl
 // profile routes
 // {user:username} tells laravel to look for a user with the username value passed in the url
 Route::get('/profile/{user:username}', [UserController::class, 'viewProfile'])->middleware('mustBeLoggedIn');
+
+
+Route::get('/admin', function(){
+  return 'ADMINS ONLY';
+})->middleware('can:accessAdminPages');

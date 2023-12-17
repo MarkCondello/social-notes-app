@@ -19,5 +19,10 @@ In this code we are saying the `Post` class's policy is the `PostPolicy` class.
 
 We can use the directives defined in the `PostPolicy` in the .blade.php files by using the `@can` directives.
 
-We can also use policies as middleware in routes as well like so:
+We can also use the post *policy* as middleware in routes as well like so:
 `->middleware('can:delete,post')`
+
+Policies are tied to a model for CRUD operations for a specific resource. In this example we are tying the Post model to the policy.
+
+We use a *gate* to allow access to private areas. In this project we set up the `accessAdminPages` in the boot method of AuthServiceProvider.php file and spell out which type of user gets past the *gate*.
+Then in the routes file, we use the `->middleware(can:accessAdminPages)` to allow access to sepcific routes.
