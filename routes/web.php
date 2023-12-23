@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 
 
 /*
@@ -25,6 +26,11 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('mustBeLog
 Route::get('/edit-avatar', [UserController::class, 'showAvatarForm'])->middleware('mustBeLoggedIn');
 Route::post('/upload-avatar', [UserController::class, 'uploadAvatar'])->middleware('mustBeLoggedIn');
 
+// follow routes
+Route::post('/store-follower/{user:username}', [FollowController::class, 'storeFollower'])->middleware('mustBeLoggedIn');
+Route::delete('/delete-follower/{user:username}', [FollowController::class, 'deleteFollower'])->middleware('mustBeLoggedIn');
+
+
 // blog routes
 Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('mustBeLoggedIn');
 Route::post('/store-post', [PostController::class, 'storePost'])->middleware('mustBeLoggedIn');
@@ -36,6 +42,8 @@ Route::put('/posts/{post}/update', [PostController::class, 'updatePost'])->middl
 // profile routes
 // {user:username} tells laravel to look for a user with the username value passed in the url
 Route::get('/profile/{user:username}', [UserController::class, 'viewProfile'])->middleware('mustBeLoggedIn');
+Route::get('/profile/{user:username}/followers', [UserController::class, 'viewFollowers'])->middleware('mustBeLoggedIn');
+Route::get('/profile/{user:username}/following', [UserController::class, 'viewFollowing'])->middleware('mustBeLoggedIn');
 
 
 Route::get('/admin', function(){

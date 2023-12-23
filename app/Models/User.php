@@ -49,6 +49,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class, 'user_id');
     }
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'followeduser'); // third argument is the local key or primary key on the current model
+    }
+
+    public function following()
+    {
+        return $this->hasMany(Follow::class, 'user_id'); // third argument is the local key or primary key on the current model
+    }
 
     protected function avatar(): Attribute
     {
