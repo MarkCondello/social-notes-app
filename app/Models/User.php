@@ -49,6 +49,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class, 'user_id');
     }
+
+    public function feedPosts() {
+        return $this->hasManyThrough(Post::class, Follow::class, 'user_id', 'user_id', 'id', 'followeduser');
+
+    }
     public function followers()
     {
         return $this->hasMany(Follow::class, 'followeduser'); // third argument is the local key or primary key on the current model

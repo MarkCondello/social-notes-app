@@ -18,7 +18,7 @@ class UserController extends Controller
     function homePage()
     {
         if (auth()->check()) {
-            return view('home-page-feed');
+            return view('home-page-feed', ['posts' => auth()->user()->feedPosts()->latest()->get()]);
         } else {
             return view('home-page');
         }
