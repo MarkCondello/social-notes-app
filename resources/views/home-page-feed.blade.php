@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout pageTitle="{{auth()->user()->username}}'s post feed">
   <div class="container py-md-5 container--narrow">
     @unless($posts->isEmpty())
     <div class="text-center">

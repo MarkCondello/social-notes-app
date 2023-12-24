@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout pageTitle="Who {{$sharedData['user']->username}} follows">
   <x-profile
     :sharedData="$sharedData"
     activeTab="following"

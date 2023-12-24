@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout pageTitle="Editing {{$post->title}}">
   <div class="container py-md-5 container--narrow">
     <form action="/posts/{{$post->id}}/update" method="POST">
       <p><small><strong>
