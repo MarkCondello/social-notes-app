@@ -1,6 +1,5 @@
 <x-layout>
   <div class="container py-md-5 container--narrow">
-    {{-- @dd($posts) --}}
     @unless($posts->isEmpty())
     <div class="text-center">
       <h2>The latest posts from those you follow</h2>
@@ -12,6 +11,9 @@
         <strong>{{$post->title}}</strong>&nbsp;<span class="text-muted small">written by {{$post->user->username}} on {{$post->created_at->format('n/j/Y')}}</span>
        </a>
       @endforeach
+    </div>
+    <div class="mt-4">
+      {{$posts->links()}}
     </div>
   @else
     <div class="text-center">
