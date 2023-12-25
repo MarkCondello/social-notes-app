@@ -39,6 +39,8 @@ Route::delete('/posts/{post}', [PostController::class, 'deletePost'])->middlewar
 Route::get('/posts/{post}/edit', [PostController::class, 'showEditForm'])->middleware('can:update,post');
 Route::put('/posts/{post}/update', [PostController::class, 'updatePost'])->middleware('can:update,post');
 
+Route::get('/search/{term}', [PostController::class, 'search']);
+
 // profile routes
 // {user:username} tells laravel to look for a user with the username value passed in the url
 Route::get('/profile/{user:username}', [UserController::class, 'viewProfile'])->middleware('mustBeLoggedIn');
@@ -46,6 +48,6 @@ Route::get('/profile/{user:username}/followers', [UserController::class, 'viewFo
 Route::get('/profile/{user:username}/following', [UserController::class, 'viewFollowing'])->middleware('mustBeLoggedIn');
 
 
-Route::get('/admin', function(){
-  return 'ADMINS ONLY';
-})->middleware('can:accessAdminPages');
+// Route::get('/admin', function(){
+//   return 'ADMINS ONLY';
+// })->middleware('can:accessAdminPages');

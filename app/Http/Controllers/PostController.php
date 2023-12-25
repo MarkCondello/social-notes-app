@@ -60,4 +60,10 @@ class PostController extends Controller
         $post['body'] = strip_tags(Str::markdown($post->body), '<p><h3><h4><h5><h6><ul><ol><li><blockquote><pre><code><em><strong><del><sup><sub><table><thead><tbody><tr><th><td>');
         return view('single-post', ['post' => $post]);
     }
+
+    public function search($term)
+    {
+        return Post::search($term)->get()->load('user:username,id,avatar'); // Scout\Searchable
+        // return Post::where('title', 'LIKE', '%'. $term . '%')->orWhere('body', 'LIKE', '%'. $term . '%')->get();
+    }
 }

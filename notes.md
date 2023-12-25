@@ -38,3 +38,13 @@ Resizing images is done with the `Intervention\Image` package [here](https://git
 
 ### Avatar accessor
 In the User model, we have an accessor which changes the logic for accessing the `$user->avatar`. It checks if the image exists in the table, and if so, loads the correct path for where it is located. Otherwise a fallback image is provided.
+
+
+### Scout Laravel search:
+```composer require laravel/scout```
+```php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"```
+
+Add the associated settings to the model where it needs to be searchable. See the Post model as an exanple..
+In the .env add the settings for the Scout driver:
+```SCOUT_DRIVER=database```
+Use Scout search on a model like so: `Post::search()`
