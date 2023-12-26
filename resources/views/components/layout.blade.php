@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/main.css" />
+    {{-- <link rel="stylesheet" href="/main.css" /> --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
     <header class="header-bar mb-3">
@@ -82,6 +83,7 @@
     <!-- header ends here -->
     {{ $slot }}
     <!-- footer begins -->
+
     <footer class="border-top text-center small text-muted py-3">
       <p class="m-0">Copyright &copy; 2022 <a href="/" class="text-muted">OurApp</a>. All rights reserved.</p>
     </footer>
@@ -93,4 +95,3 @@
     </script>
   </body>
 </html>
-    
