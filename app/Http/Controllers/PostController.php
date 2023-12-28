@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Mail\NewPostEmail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -51,7 +53,12 @@ class PostController extends Controller
         $fields['body'] = strip_tags($fields['body']);
         $fields['user_id'] = auth()->user()->id;
         $post = Post::create($fields);
-        
+
+        Mail::to(auth()->user()->email)->send(new NewPostEmail([
+            'name' => auth()->user()->username,
+            'title' => $post->title,
+        ]));
+
         return redirect('/posts/' . $post->id)->with('success', 'Your post was created.');
     }
     

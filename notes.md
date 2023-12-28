@@ -76,3 +76,15 @@ To create a new Event we can run the artisan command like this:
 `php artisan make:event ChatMessage`
 In the constructor of that file, we defined what data is received / broadcasted.
 
+## Emails
+I am using my mailtrap connected to by github account for the mail settings.
+To generate a new Mail service we can run a command like so:
+```php artisan make:mail NewPostEmail```
+This command creates a file in the Mail directory where we can define:
+ - which template to render the email
+ - the subject line on the email and attachment settings
+ - what data gets passed in
+
+Then within our Controllers we can call that class and define where to send mail to like so:
+`Mail::to('test@test.com')->send(new NewPostEmail());`
+We can send data to the NewPostEmail class and pass that through to the template. View the `NewPostEmail.php` for details.
