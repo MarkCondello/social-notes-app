@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ExampleEvent;
+
 use App\Models\User;
 use App\Models\Follow;
 //  use Intervention\Image\Image;
@@ -53,6 +55,7 @@ class UserController extends Controller
         ])) {
             $request->session()->regenerate(); // creates a laravel_session cookie
             // return 'You logged in';
+            event(new ExampleEvent(['username' => auth()->user()->username, 'action' => 'login']));
             return redirect('/')->with('success', 'You logged in.');
         } else {
             // return 'You can NOT log in';
@@ -62,6 +65,7 @@ class UserController extends Controller
 
     function logout()
     {
+        event(new ExampleEvent(['username' => auth()->user()->username, 'action' => 'logout']));
         auth()->logout();
         return redirect('/')->with('success', 'You logged out.');
     }

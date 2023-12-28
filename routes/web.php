@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\ChatMessage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PostController;
@@ -30,7 +32,6 @@ Route::post('/upload-avatar', [UserController::class, 'uploadAvatar'])->middlewa
 Route::post('/store-follower/{user:username}', [FollowController::class, 'storeFollower'])->middleware('mustBeLoggedIn');
 Route::delete('/delete-follower/{user:username}', [FollowController::class, 'deleteFollower'])->middleware('mustBeLoggedIn');
 
-
 // blog routes
 Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('mustBeLoggedIn');
 Route::post('/store-post', [PostController::class, 'storePost'])->middleware('mustBeLoggedIn');
@@ -47,6 +48,25 @@ Route::get('/profile/{user:username}', [UserController::class, 'viewProfile'])->
 Route::get('/profile/{user:username}/followers', [UserController::class, 'viewFollowers'])->middleware('mustBeLoggedIn');
 Route::get('/profile/{user:username}/following', [UserController::class, 'viewFollowing'])->middleware('mustBeLoggedIn');
 
+// pusher routes
+Route::post('/send-chat-message', function(Request $request){
+  $fields = $request->validate([
+    'textvalue' => 'required'
+  ]);
+
+  if (!trim(strip_tags($fields['textvalue']))) {
+    return response()->noContent();
+  }
+
+  broadcast(new ChatMessage([
+    'username' => auth()->user()->username,
+    'textvalue' => strip_tags($request->textvalue),
+    'avatar' => auth()->user()->avatar,
+  ]))->toOthers();
+
+  return response()->noContent();
+
+})->middleware('mustBeLoggedIn');
 
 // Route::get('/admin', function(){
 //   return 'ADMINS ONLY';

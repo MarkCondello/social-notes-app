@@ -39,7 +39,6 @@ Resizing images is done with the `Intervention\Image` package [here](https://git
 ### Avatar accessor
 In the User model, we have an accessor which changes the logic for accessing the `$user->avatar`. It checks if the image exists in the table, and if so, loads the correct path for where it is located. Otherwise a fallback image is provided.
 
-
 ### Scout Laravel search:
 ```composer require laravel/scout```
 ```php artisan vendor:publish --provider="Laravel\Scout\ScoutServiceProvider"```
@@ -48,3 +47,32 @@ Add the associated settings to the model where it needs to be searchable. See th
 In the .env add the settings for the Scout driver:
 ```SCOUT_DRIVER=database```
 Use Scout search on a model like so: `Post::search()`
+
+### Events & Listeners
+Events can be added to the system for them to be listened to. An example of an event could be when a user creates a blog post or loggs in or performs any type of action.
+From with in the `EventServiceProvider.php` we can scaffold events and listeners with creating the associated class files like so:
+```
+use \App\Events\ExampleEvent;
+use \App\Listener\ExampleListener;
+...
+
+class EventServiceProvider extends ServiceProvider
+{
+    protected $listen = [
+        ExampleEvent::class => [
+            ExampleListener::class
+        ],
+```
+Then we can run `php artisan event:generate` and Laravel will make the class files we have referenced.
+With this setup, we can use the Listener file generated to perform an action once the event occurs by using `event(new ExampleEvent());` in our Controllers or Models etc.
+
+### Pusher (Broadcasting)
+We are using the `Pusher` service to broadcast data on the platform. Pusher allows for real time socket connections. My (account)[https://dashboard.pusher.com/] is connected to my Github.
+
+We need to add in the App Keys provided by Pusher and install this package:
+`composer require pusher/pusher-php-server`.
+
+To create a new Event we can run the artisan command like this:
+`php artisan make:event ChatMessage`
+In the constructor of that file, we defined what data is received / broadcasted.
+
