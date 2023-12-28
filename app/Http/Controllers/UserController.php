@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ExampleEvent;
+use App\Models\Post;
 
 use App\Models\User;
 use App\Models\Follow;
 //  use Intervention\Image\Image;
+use App\Events\ExampleEvent;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\View;
 use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Imagick\Driver;
 
@@ -20,13 +22,13 @@ class UserController extends Controller
     function homePage()
     {
         if (auth()->check()) {
-            return view('home-page-feed',
-            [
-                'posts' => auth()->user()->feedPosts()->latest()->paginate(10),
-            ]);
-        } else {
-            return view('home-page');
+            return view('home-page-feed',['posts' => auth()->user()->feedPosts()->latest()->paginate(10),]);
         }
+        $postCount = Cache::remember('postCount', 20, function(){
+            // sleep(5);
+            return Post::count();
+        });// func only runs if value is not added to cache
+        return view('home-page', ['postsCount' => $postCount]);
     }
 
     function store(Request $request)

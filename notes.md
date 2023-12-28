@@ -102,3 +102,24 @@ For the queue to run scheduled jobs we run:`php artisan queue:work`. There is a 
 `app/Console/Kernel.php` has a schedule method which allows us to perform tasks at a specific time interval.
 In order for this to run we run this command: `php artisan schedule:work`
 This is ideal for local development only and there is a more robust solution for production environments.
+
+## Caching
+Laravel has a flexible Cache system which allows us to add and read from cache. An example of showing user the posts count on the application is used for this project but in a real example, it would be used for retrieving data which is process intensive and slows down the application.
+```
+if (Cache::has('postCount')) {
+    $postCount = Cache::get('postCount');
+} else {
+    sleep(5); // sleep is only used to demonstrate that a value is getting added to cache.
+    $postCount = Post::count();
+    Cache::put('postCount', $postCount, 20); // 20 secs
+}
+return view('home-page', ['postsCount' => $postCount]);
+```
+Instead of this approach, Laravel has a `remember()` function which adds a value to cache if it does not exist with a callback:
+```
+$postCount = Cache::remember('postCount', 20, function(){
+      sleep(5);
+      return Post::count();
+  });// func only runs if value is not added to cache
+  return view('home-page', ['postsCount' => $postCount]);
+  ```
