@@ -97,3 +97,8 @@ For us to schedule queued jobs we need to change the env settings: `QUEUE_CONNEC
 We need to create the migration for the table which manages queues: `php artisan queue:table` followed by a migrate:`php artisan migrate`
 
 For the queue to run scheduled jobs we run:`php artisan queue:work`. There is a more production ready way to ensure the queue worker is running and using this approach is adequate for local development.
+
+### Schedule tasks
+`app/Console/Kernel.php` has a schedule method which allows us to perform tasks at a specific time interval.
+In order for this to run we run this command: `php artisan schedule:work`
+This is ideal for local development only and there is a more robust solution for production environments.
