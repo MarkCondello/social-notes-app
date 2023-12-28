@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendNewPostEmail;
 use App\Models\Post;
-use App\Mail\NewPostEmail;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -54,7 +53,8 @@ class PostController extends Controller
         $fields['user_id'] = auth()->user()->id;
         $post = Post::create($fields);
 
-        Mail::to(auth()->user()->email)->send(new NewPostEmail([
+        dispatch(new SendNewPostEmail([
+            'sendTo' => auth()->user()->email,
             'name' => auth()->user()->username,
             'title' => $post->title,
         ]));

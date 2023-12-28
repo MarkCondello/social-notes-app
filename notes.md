@@ -22,10 +22,10 @@ We can use the directives defined in the `PostPolicy` in the .blade.php files by
 We can also use the post *policy* as middleware in routes as well like so:
 `->middleware('can:delete,post')`
 
-Policies are tied to a model for CRUD operations for a specific resource. In this example we are tying the Post model to the policy.
+Policies are tied to a model for CRUD operations for a specific resource. In this example we are tying the Post model to the associated policy.
 
 ## Gates
-We use a *gate* to allow access to private areas. In this project we set up the `accessAdminPages` in the boot method of AuthServiceProvider.php file and spell out which type of user gets past the *gate*.
+We use a *gate* to allow access to private areas. In this project we set up the `accessAdminPages` in the boot method of `AuthServiceProvider.php` file and spell out which type of user gets past the *gate*.
 Then in the routes file, we use the `->middleware(can:accessAdminPages)` to allow access to sepcific routes.
 
 ## Laravel file handling
@@ -88,3 +88,12 @@ This command creates a file in the Mail directory where we can define:
 Then within our Controllers we can call that class and define where to send mail to like so:
 `Mail::to('test@test.com')->send(new NewPostEmail());`
 We can send data to the NewPostEmail class and pass that through to the template. View the `NewPostEmail.php` for details.
+
+### Jobs & Queues
+Laravel has a command for setting up jobs:
+`php artisan make:job SendNewPostEmail`
+
+For us to schedule queued jobs we need to change the env settings: `QUEUE_CONNECTION=database`
+We need to create the migration for the table which manages queues: `php artisan queue:table` followed by a migrate:`php artisan migrate`
+
+For the queue to run scheduled jobs we run:`php artisan queue:work`. There is a more production ready way to ensure the queue worker is running and using this approach is adequate for local development.
