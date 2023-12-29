@@ -137,4 +137,18 @@ class UserController extends Controller
             'following' => $user->following()->latest()->get(),
        ]);
     }
+
+    public function loginApi(Request $request)
+    {
+        $fields = $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        if (auth()->attempt($fields)) {
+            $user = User::where('username', $fields['username'])->first();
+            $token = $user->createToken('ourAppToken')->plainTextToken;
+            return $token;
+        }
+        return 'Sorry';
+    }
 }

@@ -71,7 +71,6 @@
     @endif
     @if (session()->has('error'))
     <div class="container container--narrow">
-
       <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
         <strong>{{session('error')}}</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -80,15 +79,10 @@
       </div>
     </div>
     @endif
-    <!-- header ends here -->
     {{ $slot }}
-    <!-- footer begins -->
-
     <footer class="border-top text-center small text-muted py-3">
-      <p class="m-0">Copyright &copy; 2022 <a href="/" class="text-muted">OurApp</a>. All rights reserved.</p>
+      <p class="m-0">Copyright &copy; {{date('Y')}} <a href="/" class="text-muted">Social Notes App</a>. All rights reserved.</p>
     </footer>
-
-
     @auth
     <div id="chat-wrapper" class="chat-wrapper shadow border-top " data-username="{{auth()->user()->username}}" data-avatar="{{auth()->user()->avatar}}"></div>
     @endauth

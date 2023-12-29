@@ -123,3 +123,11 @@ $postCount = Cache::remember('postCount', 20, function(){
   });// func only runs if value is not added to cache
   return view('home-page', ['postsCount' => $postCount]);
   ```
+
+## API Endpoints
+For logged in users, they can receive a token so they can make requests to do CRUD on posts.
+We have setup a `/login` api endpoint with a `loginApi()` method which returns a token.
+
+All the permissions still apply to the user model and their privledges to the Post model.
+
+We have also set up POST and DELETE options. View `api.php` for the routes.

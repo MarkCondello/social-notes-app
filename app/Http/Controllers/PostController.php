@@ -34,6 +34,13 @@ class PostController extends Controller
         return redirect('/profile/' . auth()->user()->username)
             ->with('success', 'Post was deleted...');
     }
+
+    public function deletePostApi(Post $post)
+    {
+        $postTitle = $post->title;
+        $post->delete();
+        return "The post $postTitle was succefully deleted.";
+    }
     public function showCreateForm()
     {
         // if (!auth()->check()) { // we use route middleware instead
@@ -60,6 +67,26 @@ class PostController extends Controller
         ]));
 
         return redirect('/posts/' . $post->id)->with('success', 'Your post was created.');
+    }
+
+    public function storePostApi(Request $request)
+    {
+        $fields = $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+        $fields['title'] = strip_tags($fields['title']);
+        $fields['body'] = strip_tags($fields['body']);
+        $fields['user_id'] = auth()->user()->id;
+        $post = Post::create($fields);
+
+        dispatch(new SendNewPostEmail([
+            'sendTo' => auth()->user()->email,
+            'name' => auth()->user()->username,
+            'title' => $post->title,
+        ]));
+
+        return $post->id;
     }
     
     public function viewPost(Post $post) // type hinting with Post model which is passed in as a parameter from the route
