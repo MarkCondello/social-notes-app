@@ -3,10 +3,6 @@
     :sharedData="$sharedData"
     activeTab="profile"
   >
-    <div class="list-group">
-      @foreach($posts as $post)
-      <x-post-preview :post="$post"/>
-      @endforeach
-    </div>
+    @include('profile-posts-only')
   </x-profile>
 </x-layout>

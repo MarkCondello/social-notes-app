@@ -48,6 +48,12 @@ Route::get('/profile/{user:username}', [UserController::class, 'viewProfile'])->
 Route::get('/profile/{user:username}/followers', [UserController::class, 'viewFollowers'])->middleware('mustBeLoggedIn');
 Route::get('/profile/{user:username}/following', [UserController::class, 'viewFollowing'])->middleware('mustBeLoggedIn');
 
+Route::middleware('cache.headers:public;max_age=20;etag')->group(function(){
+  Route::get('/profile/{user:username}/raw', [UserController::class, 'viewProfileRaw'])->middleware('mustBeLoggedIn');
+  Route::get('/profile/{user:username}/followers/raw', [UserController::class, 'viewFollowersRaw'])->middleware('mustBeLoggedIn');
+  Route::get('/profile/{user:username}/following/raw', [UserController::class, 'viewFollowingRaw'])->middleware('mustBeLoggedIn');
+});
+
 // pusher routes
 Route::post('/send-chat-message', function(Request $request){
   $fields = $request->validate([
