@@ -89,7 +89,6 @@ class UserController extends Controller
         Storage::put("/public/avatars/". $filename, $image);
 
         $oldAvatar = $user->avatar;
-
         $user->avatar = $filename;
         $user->save();
 
@@ -97,7 +96,6 @@ class UserController extends Controller
             Storage::delete(str_replace('/storage', 'public/', $oldAvatar)); // need to delete the image found in public, not the storage dir
         }
         return redirect('/')->with('success', 'You updated your avatar.');
-
     }
 
     private function getSharedData($user)
@@ -173,6 +171,6 @@ class UserController extends Controller
             $token = $user->createToken('ourAppToken')->plainTextToken;
             return $token;
         }
-        return 'Sorry';
+        return 'Sorry, you have incorrect credentials.';
     }
 }

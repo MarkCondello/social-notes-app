@@ -29,7 +29,7 @@ class RecapEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Recap of the app',
+            subject: 'Recap of the social notes app.',
         );
     }
 

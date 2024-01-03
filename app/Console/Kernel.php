@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function(){
             Mail::to('test@test.com')->send(new RecapEmail());
-        })->everyMinute();
+        })->daily();
         // $schedule->command('inspire')->hourly();
     }
 
@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }
